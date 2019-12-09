@@ -74,6 +74,7 @@ namespace SistemasWeb.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        // Este es el metodo que se ejecuta cuando nosotros hacemos Login en nuestra aplicacion
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
@@ -85,8 +86,10 @@ namespace SistemasWeb.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    //_logger.LogInformation("Usuario logeado");
+                    //return LocalRedirect(returnUrl);
+                    // Redirigimos al Index de Principal si el usuario se ha logeado correctamente
+                    return Redirect("/Principal/Index");
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -118,7 +121,7 @@ namespace SistemasWeb.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+                ModelState.AddModelError(string.Empty, "Email de Verificacion Enviado. Por favor, revise su email");
             }
 
             var userId = await _userManager.GetUserIdAsync(user);

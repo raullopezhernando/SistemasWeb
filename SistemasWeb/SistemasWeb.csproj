@@ -18,6 +18,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Categorias\Data\" />
     <Folder Include="Areas\Principal\Data\" />
     <Folder Include="Areas\Principal\Models\" />
   </ItemGroup>

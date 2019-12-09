@@ -59,7 +59,8 @@ namespace SistemasWeb
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             //app.UseRouting();
 
             app.UseMvc(routes =>
@@ -73,10 +74,11 @@ namespace SistemasWeb
                 // Cualquier controlador que vayamos a utilizar en la area "Principal" va utilizar
                 // la siguiente ruta para poder ejecutarlo
                 routes.MapAreaRoute("Principal", "Principal", "{controller=Principal}/{action=''}/{id?}");
+                routes.MapAreaRoute("Categorias", "Categorias", "{controller=Categorias}/{action=''}/{id?}");
             });
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+           
+
 
             //app.UseEndpoints(endpoints =>
             //{
