@@ -64,6 +64,13 @@ button.accept-policy {
     line-height: inherit;
 }
 
+.hidden 
+{
+    visibility:hidden;
+    height:0px;
+    width:0px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
