@@ -63,7 +63,8 @@ namespace SistemasWeb.Areas.Categorias.Controllers
         {
             if (model.Input.Nombre != null && model.Input.Descripcion != null) 
             {
-                return "Hola";
+                var data = _lcategoria.RegistrarCategoria(model.Input);
+                return JsonConvert.SerializeObject(data);
 
             }
             else
