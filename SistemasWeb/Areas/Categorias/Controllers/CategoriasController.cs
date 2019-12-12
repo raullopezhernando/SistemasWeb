@@ -15,9 +15,6 @@ using SistemasWeb.Models;
 namespace SistemasWeb.Areas.Categorias.Controllers
 {
     [Area("Categorias")]
-    // El Authorize indica que solo los usuarios que inicien sesion tendran acceso al controlar "CategoriasController"
-    // Esta etiqueta sustituye lo comentado en el metodo "Categoria()"
-
     [Authorize]
     public class CategoriasController : Controller
     {
@@ -30,51 +27,53 @@ namespace SistemasWeb.Areas.Categorias.Controllers
             _signInManager = signInManager;
             _lcategoria = new LCategorias(context);
         }
-        public IActionResult Categoria()
-        {
+        //public IActionResult Categoria(int id, String Search, int Registros)
+        //{
+        //    if (_signInManager.IsSignedIn(User))
+        //    {
+        //        //Object[] objects = new Object[3];
+        //        //var data = _lcategoria.getTCategoria(Search);
+        //        //if (0 < data.Count)
+        //        //{
+        //        //    //var url = Request.Scheme + "://" + Request.Host.Value;
+        //        //    ////objects = new LPaginador<TCategoria>().paginador(_lcategoria.getTCategoria(Search)
+        //        //    //  , id, Registros, "Categorias", "Categorias", "Categoria", url);
+        //        //}
+        //        else
+        //        {
+        //            objects[0] = "No hay datos que mostrar";
+        //            objects[1] = "No hay datos que mostrar";
+        //            objects[2] = new List<TCategoria>();
+        //        }
 
+        //        models = new DataPaginador<TCategoria>
+        //        {
+        //            List = (List<TCategoria>)objects[2],
+        //            Pagi_info = (String)objects[0],
+        //            Pagi_navegacion = (String)objects[1],
+        //            Input = new TCategoria()
+        //        };
+        //        return View(models);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction(nameof(HomeController.Index), "Home");
+        //    }
 
-            //Si un usuario logeado ha accedido a la aplicacion entrara aqui
-            if (_signInManager.IsSignedIn(User))
-            {
-                models = new DataPaginador<TCategoria>
-                {
-                    Input = new TCategoria()
-                };
-                return View(models);
-            }
-            else
-            {
-            //    Si el login es incorrecto se le redirige a la vista Index del HomeController
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-
-        }
-
-        
-        // Este atributo especifica que ejecutaremos el metodo por POST . Si no especificamos
-        // el metodo se ejecuta por defecto en GET
-
+        //}
         [HttpPost]
-        
-
-        // Cuando especificamos que el retorno sea "IActionResult" queremos decir que el
-        // retorno sera una vista
         public String GetCategorias(DataPaginador<TCategoria> model)
         {
-            if (model.Input.Nombre != null && model.Input.Descripcion != null) 
+            if (model.Input.Nombre != null && model.Input.Descripcion != null)
             {
                 var data = _lcategoria.RegistrarCategoria(model.Input);
-                // Pasamos el objeto a String para coger dicho objeto en la clase
-                // "Categoria.js" y alli convertirlo en un objeto
-                return JsonConvert.SerializeObject(data); 
-
+                return JsonConvert.SerializeObject(data);
             }
             else
             {
-                return "Rellene los campos requeridos";
+                return "Llene los campos requeridos";
             }
-         
+
         }
     }
 }

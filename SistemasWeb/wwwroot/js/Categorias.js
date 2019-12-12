@@ -9,7 +9,7 @@ class Categorias {
                 try {
                     var item = JSON.parse(response);
                     if (item.Code == "Done") {
-                        window.location.href = "Index";
+                        window.location.href = "Categoria";
                     } else {
                         document.getElementById("mensaje").innerHTML = item.Description;
                     }
