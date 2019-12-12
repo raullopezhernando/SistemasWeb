@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SistemasWeb.Areas.Categorias.Models;
 using SistemasWeb.Controllers;
 using SistemasWeb.Data;
@@ -64,14 +65,16 @@ namespace SistemasWeb.Areas.Categorias.Controllers
             if (model.Input.Nombre != null && model.Input.Descripcion != null) 
             {
                 var data = _lcategoria.RegistrarCategoria(model.Input);
-                return JsonConvert.SerializeObject(data);
+                // Pasamos el objeto a String para coger dicho objeto en la clase
+                // "Categoria.js" y alli convertirlo en un objeto
+                return JsonConvert.SerializeObject(data); 
 
             }
             else
             {
                 return "Rellene los campos requeridos";
             }
-            return null;
+         
         }
     }
 }

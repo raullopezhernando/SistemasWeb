@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-SistemasWeb-8A571244-A87A-483B-BE0E-01DF404BA5D8</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20191212191120_Migracion2.cs" />
+    <Compile Remove="Data\Migrations\20191212191120_Migracion2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191212192047_Migracion2.cs" />
+    <Compile Remove="Data\Migrations\20191212192047_Migracion2.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
@@ -19,6 +26,9 @@
 
   <ItemGroup>
     <Folder Include="Areas\Categorias\Data\" />
+    <Folder Include="Areas\Cursos\Controllers\" />
+    <Folder Include="Areas\Cursos\Data\" />
+    <Folder Include="Areas\Cursos\Views\" />
     <Folder Include="Areas\Principal\Data\" />
     <Folder Include="Areas\Principal\Models\" />
   </ItemGroup>

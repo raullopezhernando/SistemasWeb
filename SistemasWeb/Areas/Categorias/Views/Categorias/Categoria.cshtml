@@ -1,6 +1,5 @@
 ﻿
 @model DataPaginador<TCategoria>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -43,8 +42,8 @@
                                 <input asp-for="Input.Estado" />
                             </div>
                         </div>
-                        <span id="mensaje" class="text-danger"></span>
-                        <input type="text" required class="hidden"/>
+                        <span id="mensaje" class=" text-danger"></span>
+                   
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -55,7 +54,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    @await Html.PartialAsync("_ValidationScriptsPartial");
- }
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
 

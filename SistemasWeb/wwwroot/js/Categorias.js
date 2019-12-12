@@ -1,8 +1,7 @@
 ﻿
-class Categorias{
+class Categorias {
 
-    RegistrarCategoria()
-    {
+    RegistrarCategoria() {
         $.post(
             "GetCategorias",
             $('.formCategoria').serialize(),
@@ -14,14 +13,13 @@ class Categorias{
                     } else {
                         document.getElementById("mensaje").innerHTML = item.Description;
                     }
-                }
-                catch (e)
-                {
+                } catch (e) {
                     document.getElementById("mensaje").innerHTML = response;
                 }
- 
+
+                console.log(response);
             }
         );
     }
-
 }
+
