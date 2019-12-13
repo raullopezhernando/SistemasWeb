@@ -1,14 +1,98 @@
-﻿
-@model DataPaginador<TCategoria>
+﻿@model DataPaginador<TCategoria>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Categorias</h1>
-<p>
-    <a data-toggle='modal' data-target='#modal1' class='btn btn-info text-white'>Crear categoria</a>
-</p>
+
+
+<form asp-areas="Categorias" asp-controller="Categorias" asp-action="Categoria" method="get">
+    <div class="row">
+        <div class="col-xs-8 col-md-3">
+
+            <input id="flitrar" name="Search" placeholder="Buscar categorias" class="form-control">
+
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <div class="col-md-2">
+
+                <button type="submit" class="btn btn-info">Buscar </button>
+
+            </div>
+
+        </div>
+    </div>
+
+</form>
+<br />
+<br />
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-3">
+            <a data-toggle='modal' data-target='#modal1' class='btn btn-info text-white'>Crear categoria</a>
+        </div>
+        <form asp-area="Categorias" asp-controller="Categorias" asp-action="Categoria" method="get">
+            <div class="row">
+                <div class="col-md-5">
+                    <input type="number" name="Registros" class="form-control" value="5" min="50" step="1">
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" class="btn btn-success" value="N Registros">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.Estado)
+            </th>
+            <th>
+                Opciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.List)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @if (item.Estado)
+                    {
+                        <a class="btn-sm btn-success text-light">Activa</a>
+                    }
+                    else
+                    {
+                        <a class="btn-sm btn-danger text-light">No activa</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @*El metodo Raw convierte la informacion del tipo String en datos de TIPO HTML*@
+    Resultados @Html.Raw(Model.Pagi_info)
+    <br />
+    @Html.Raw(Model.Pagi_navegacion)
+</div>
 <div class="modal fade" data-backdrop="static" id="modal1" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -43,7 +127,7 @@
                             </div>
                         </div>
                         <span id="mensaje" class=" text-danger"></span>
-                   
+                        <input type="text" required class="hidenn" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -57,4 +141,5 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
 

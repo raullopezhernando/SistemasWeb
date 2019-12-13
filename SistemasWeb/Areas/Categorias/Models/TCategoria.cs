@@ -16,7 +16,8 @@ namespace SistemasWeb.Areas.Categorias.Models
         [Required(ErrorMessage = "El campo descripcion es obligatorio.")]
         public string Descripcion { get; set; }
         public Boolean Estado { get; set; } = true;
-         public ICollection<TCursos> Cursos { get; set; }// Una Categoria puede tener n cursos
+        public ICollection<TCursos> Cursos { get; set; }
     }
+
 }
 

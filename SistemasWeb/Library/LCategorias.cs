@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using SistemasWeb.Areas.Categorias.Models;
 using SistemasWeb.Data;
-using System;
 
 namespace SistemasWeb.Library
 {
@@ -33,6 +36,20 @@ namespace SistemasWeb.Library
             }
             return identityError;
         }
+        public List<TCategoria> getTCategoria(String valor)
+        {
+            List<TCategoria> listCategoria;
+            if (valor == null)
+            {
+                listCategoria = _context._TCategoria.ToList();
+            }
+            else
+            {
+                listCategoria = _context._TCategoria.Where(c => c.Nombre.StartsWith(valor)).ToList();
+            }
+            return listCategoria;
+        }
     }
 }
+
 
