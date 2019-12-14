@@ -6,27 +6,19 @@
 
 <h1>Categorias</h1>
 
-
-<form asp-areas="Categorias" asp-controller="Categorias" asp-action="Categoria" method="get">
+<form asp-area="Categorias" asp-controller="Categorias" asp-action="Categoria" method="get">
     <div class="row">
         <div class="col-xs-8 col-md-3">
-
-            <input id="flitrar" name="Search" placeholder="Buscar categorias" class="form-control">
-
+            <input id="filtrar" name="Search" placeholder="Buscar categorias" class="form-control" />
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="col-md-2">
-
-                <button type="submit" class="btn btn-info">Buscar </button>
-
+                <button type="submit" class='btn btn-info'>Buscar</button>
             </div>
-
         </div>
     </div>
-
 </form>
-<br />
-<br />
+</br>
 <div class="form-group">
     <div class="row">
         <div class="col-md-3">
@@ -35,7 +27,7 @@
         <form asp-area="Categorias" asp-controller="Categorias" asp-action="Categoria" method="get">
             <div class="row">
                 <div class="col-md-5">
-                    <input type="number" name="Registros" class="form-control" value="5" min="50" step="1">
+                    <input type="number" name="Registros" class="form-control" value="5" min="1" max="50" step="1">
                 </div>
                 <div class="col-md-3">
                     <input type="submit" class="btn btn-success" value="N Registros">
@@ -43,9 +35,7 @@
             </div>
         </form>
     </div>
-
 </div>
-
 <table class="table">
     <thead>
         <tr>
@@ -74,13 +64,24 @@
                     @Html.DisplayFor(modelItem => item.Descripcion)
                 </td>
                 <td>
-                    @if (item.Estado)
-                    {
-                        <a class="btn-sm btn-success text-light">Activa</a>
-                    }
-                    else
-                    {
-                        <a class="btn-sm btn-danger text-light">No activa</a>
+                    <form asp-area="Categorias" asp-controller="Categorias" asp-action="UpdateEstado" method="post">
+                        <input type="hidden" name="id" value="@item.CategoriaID">
+                        @if (item.Estado)
+                        {
+                            <input type="submit" class="btn-sm btn-success text-light" value="Activa" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn-sm btn-danger text-light" value="No activa" />
+                        }
+                    </form>
+                </td>
+                <td>
+                    @{
+                        var data = JsonConvert.SerializeObject(item);
+                        <a data-toggle='modal' onclick="categorias.EditCategoria(@data)" data-target='#modal1' class='btn btn-info text-white'>Editar</a>
+
+                        <a data-toggle='modal' data-target='#ModalEliminar' onclick="categoria.GetCategoria(@data)" class='btn btn-danger text-white'>Eliminar</a>
                     }
                 </td>
             </tr>
@@ -88,7 +89,6 @@
     </tbody>
 </table>
 <div>
-    @*El metodo Raw convierte la informacion del tipo String en datos de TIPO HTML*@
     Resultados @Html.Raw(Model.Pagi_info)
     <br />
     @Html.Raw(Model.Pagi_navegacion)
@@ -109,25 +109,26 @@
                         <div class="form-group">
                             <label asp-for="Input.Nombre" class="col-md-2 control-label"></label>
                             <div class="col-md-10">
-                                <input asp-for="Input.Nombre" placeholder="Nombre" class="form-control" />
+                                <input asp-for="Input.Nombre" id="catNombre" placeholder="Nombre" class="form-control" />
                                 <span asp-validation-for="Input.Nombre" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label asp-for="Input.Descripcion" class="col-md-2 control-label"></label>
                             <div class="col-md-10">
-                                <input asp-for="Input.Descripcion" placeholder="Descripcion" class="form-control" />
+                                <input asp-for="Input.Descripcion" id="catDescripcion" placeholder="Descripcion" class="form-control" />
                                 <span asp-validation-for="Input.Descripcion" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label asp-for="Input.Estado" class="col-md-2 control-label"></label>
                             <div class="col-md-10">
-                                <input asp-for="Input.Estado" />
+                                <input asp-for="Input.Estado" id="catEstado" />
                             </div>
                         </div>
                         <span id="mensaje" class=" text-danger"></span>
-                        <input type="text" required class="hidenn" />
+                        <input type="text" required class="hidden" />
+                        <input asp-for="Input.CategoriaID" id="catCategoriaID" class="hidden" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -141,5 +142,4 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
 

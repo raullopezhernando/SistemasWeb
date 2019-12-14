@@ -22,6 +22,7 @@ namespace SistemasWeb.Areas.Categorias.Controllers
         private LCategorias _lcategoria;
         private SignInManager<IdentityUser> _signInManager;
         private static DataPaginador<TCategoria> models;
+        private static IdentityError identityError = null;
         public CategoriasController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             _signInManager = signInManager;
@@ -31,25 +32,21 @@ namespace SistemasWeb.Areas.Categorias.Controllers
         {
             if (_signInManager.IsSignedIn(User))
             {
-                Object[] objects = new object[3];
+                Object[] objects = new Object[3];
                 var data = _lcategoria.getTCategoria(Search);
-
                 if (0 < data.Count)
                 {
                     var url = Request.Scheme + "://" + Request.Host.Value;
                     objects = new LPaginador<TCategoria>().paginador(_lcategoria.getTCategoria(Search)
                       , id, Registros, "Categorias", "Categorias", "Categoria", url);
-
                 }
-
-                else 
-                // Si no estamos obteniendo informacion de la tabla Categoria
+                else
                 {
                     objects[0] = "No hay datos que mostrar";
                     objects[1] = "No hay datos que mostrar";
                     objects[2] = new List<TCategoria>();
                 }
-              
+
                 models = new DataPaginador<TCategoria>
                 {
                     List = (List<TCategoria>)objects[2],
@@ -57,6 +54,11 @@ namespace SistemasWeb.Areas.Categorias.Controllers
                     Pagi_navegacion = (String)objects[1],
                     Input = new TCategoria()
                 };
+                if (identityError != null)
+                {
+                    models.Pagi_info = identityError.Description;
+                    identityError = null;
+                }
                 return View(models);
             }
             else
@@ -78,6 +80,12 @@ namespace SistemasWeb.Areas.Categorias.Controllers
                 return "Llene los campos requeridos";
             }
 
+        }
+        [HttpPost]
+        public IActionResult UpdateEstado(int id)
+        {
+            identityError = _lcategoria.UpdateEstado(id);
+            return Redirect("/Categorias/Categoria?area=Categorias");
         }
     }
 }
