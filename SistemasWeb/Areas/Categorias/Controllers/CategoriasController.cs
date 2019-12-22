@@ -18,7 +18,7 @@ namespace SistemasWeb.Areas.Categorias.Controllers
     [Authorize]
     public class CategoriasController : Controller
     {
-        private TCategoria _categoria;
+        private TCategoria categoria;
         private LCategorias _lcategoria;
         private SignInManager<IdentityUser> _signInManager;
         private static DataPaginador<TCategoria> models;
@@ -86,6 +86,12 @@ namespace SistemasWeb.Areas.Categorias.Controllers
         {
             identityError = _lcategoria.UpdateEstado(id);
             return Redirect("/Categorias/Categoria?area=Categorias");
+        }
+        [HttpPost]
+        public String EliminarCategoria(int CategoriaID)
+        {
+            identityError = _lcategoria.DeleteCategoria(CategoriaID);
+            return JsonConvert.SerializeObject(identityError);
         }
     }
 }
