@@ -48,6 +48,14 @@ class Categorias {
             }
         );
     }
+
+    Restablecer()
+    {
+        document.getElementById("catNombre").value = "";
+        document.getElementById("catDescripcion").value = "";
+        document.getElementById("catEstado").checked = false;
+        document.getElementById("catCategoriaID").value = 0;
+    }
 }
 
 
