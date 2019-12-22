@@ -65,7 +65,7 @@
                 </td>
                 <td>
                     <form asp-area="Categorias" asp-controller="Categorias" asp-action="UpdateEstado" method="post">
-                        <input type="hidden" name="id" value="@item.CategoriaID">
+                        <input type="hidden"  name="id" value="@item.CategoriaID">
                         @if (item.Estado)
                         {
                             <input type="submit" class="btn-sm btn-success text-light" value="Activa" />
