@@ -1,0 +1,82 @@
+﻿@model DataPaginador<TCursos>
+
+<div class="modal fade" data-backdrop="static" id="modalRegistrar" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Agregar curso</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" >
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <center>
+                            <div class="form-group">
+                                <div class=" col-md-5">
+                                    <a class="thumbnail">
+                                        <output id="cursoImage">
+                                            <img src="~/Images/logo-google.png" class="cursoImage" />
+                                        </output>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group btn btn-success text-light">
+                                <label for="files">Cargar foto</label>
+                                <div class="col-md-10">
+                                    <input asp-for="AvatarImage" accept="image/*" class="file-input" type="file" id="files">
+                                </div>
+                            </div>
+                        </center>
+                        <div class="form-group">
+                            <label asp-for="Input.Nombre" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Input.Nombre" placeholder="Nombre" id="curNombre" class="form-control" />
+                                <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Descripcion" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Input.Descripcion" id="curDescripcion" placeholder="Descripcion" class="form-control" />
+                                <span asp-validation-for="Input.Descripcion" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Horas" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Input.Horas" id="curHoras" placeholder="Horas" class="form-control" />
+                                @*Mostrar los mensajes de validacion*@
+                                <span asp-validation-for="Input.Horas" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Costo" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Input.Costo" id="curCosto" placeholder="Costo" class="form-control" />
+                                @*Mostrar los mensajes de validacion*@
+                                <span asp-validation-for="Input.Costo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Estado" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Input.Estado" id="curEstado" />
+                            </div>
+                        </div>
+                        <span id="mensaje" class="text-danger"></span>
+                        <input type="text" required class="hidenn" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" onclick="" class="btn btn-primary">Guardar</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

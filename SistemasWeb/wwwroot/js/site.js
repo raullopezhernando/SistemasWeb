@@ -4,3 +4,10 @@
 // Write your JavaScript code.
 
 var categorias = new Categorias();
+
+var curso = new Cursos();
+
+var cursoImage = (evt) => {
+
+    curso.archivo(evt, "cursoImage");
+}

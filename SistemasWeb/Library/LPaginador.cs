@@ -133,21 +133,8 @@ namespace SistemasWeb.Library
 
             var query = table.Skip(pagi_inicial).Take(pagi_cuantos).ToList();
 
-            /* 
-          * Generación de la información sobre los registros mostrados. 
-          *------------------------------------------------------------------------ 
-          */
-            // Número del primer registro de la página actual 
-            int pagi_desde = pagi_inicial + 1;
-            // Número del último registro de la página actual 
-            int pagi_hasta = pagi_inicial + pagi_cuantos;
-            if (pagi_hasta > pagi_totalReg)
-            {
-                // Si estamos en la última página 
-                // El último registro de la página actual será igual al número de registros. 
-                pagi_hasta = pagi_totalReg;
-            }
-            String pagi_info = " del <b>" + pagi_desde + "</b> al <b>" + pagi_hasta + "</b> de <b>" +
+        
+            String pagi_info = " del <b>" + pagi_actual + "</b> al <b>" + pagi_totalPags+ "</b> de <b>" +
                 pagi_totalReg + "</b> <b>/" + pagi_cuantos + " registros por pagina </b>";
             object[] data = { pagi_info, pagi_navegacion, query };
             return data;
