@@ -11,12 +11,16 @@ class Uploadpicture {
         // Si es un archivo de tipo imagen
         if (f.type.match('image.*')) {
             let reader = new FileReader();
+            // El siguiente objeto contiene toda la informacion que esta entre "{}" y vamos a leer toda esa informacion
             reader.onload = ((theFile) => {
                 return (e) => {
                     document.getElementById(id).innerHTML = ['<img class="responsive-img ' + id +
                         ' " src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
                 }
             })(f);
+            // Leee la informacion anterior
+            reader.readAsDataURL(f);
+
         }
 
 
