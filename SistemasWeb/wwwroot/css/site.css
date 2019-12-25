@@ -41,6 +41,10 @@ input[type="file"] {
     z-index: -1;
 }
 
+.tdImg
+{
+    width:100px;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */

@@ -17,8 +17,6 @@ namespace SistemasWeb.Areas.Cursos.Controllers
     [Area("Cursos")]
     public class CursosController : Controller
     {
-
-        // CONSTRUCCION DE OBJETOS
         private LCursos _curso;
         private LCategorias _lcategoria;
         private SignInManager<IdentityUser> _signInManager;
@@ -26,28 +24,44 @@ namespace SistemasWeb.Areas.Cursos.Controllers
         private static IdentityError identityError;
         private ApplicationDbContext _context;
 
-
-        // Se produce la inyeccion de la interface "IWebHostEnvironment". Se utiliza para poder obtner la direccion de la aplicacion y el host de la aplicacion
-        public CursosController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager,IWebHostEnvironment environment)
-
+        public CursosController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager, IWebHostEnvironment environment)
         {
-            // INICIALIZACION DE OBJETOS
             _signInManager = signInManager;
-            _curso = new LCursos(context, environment);
             _lcategoria = new LCategorias(context);
+            _curso = new LCursos(context, environment);
         }
-        public IActionResult Cursos( int id, String search, int Registros)
+        public IActionResult Cursos(int id, String Search, int Registros)
         {
             if (_signInManager.IsSignedIn(User))
             {
                 Object[] objects = new Object[3];
-                var data = _curso.geTCursos(Search);
+                var data = _curso.getTCursos(Search);
+                if (0 < data.Count)
+                {
+                    var url = Request.Scheme + "://" + Request.Host.Value;
+                    objects = new LPaginador<TCursos>().paginador(data
+                     , id, Registros, "Cursos", "Cursos", "Cursos", url);
+                }
+                else
+                {
+                    objects[0] = "No hay datos que mostrar";
+                    objects[1] = "No hay datos que mostrar";
+                    objects[2] = new List<TCursos>();
+                }
                 models = new DataPaginador<TCursos>
                 {
-                   
+                    List = (List<TCursos>)objects[2],
+                    Pagi_info = (String)objects[0],
+                    Pagi_navegacion = (String)objects[1],
                     Categorias = _lcategoria.getTCategoria(),
                     Input = new TCursos()
                 };
+
+                if (identityError != null)
+                {
+                    models.Pagi_info = identityError.Description;
+                    identityError = null;
+                }
                 return View(models);
             }
             else
@@ -56,49 +70,39 @@ namespace SistemasWeb.Areas.Cursos.Controllers
             }
 
         }
-
-        //Este objeto contiene "Input" . Este metodo se ejecutara solo cada vez que hagamos una peticion por Post.
-        //Esto quiere decir que solo se ejecutara cuando se de el Post del AJAX que se encuentra en el archivo
-        //"Cursos.js"
-
         [HttpPost]
         public String GetCurso(DataPaginador<TCursos> model)
         {
             if (model.Input.Nombre != null && model.Input.Descripcion != null && model.Input.CategoriaID > 0)
             {
-                // Si esta propiedad es igual a 0
-
                 if (model.Input.Horas.Equals(0))
                 {
-                    return "Ingrese la cantidad de horas del Curso";
-
+                    return "Ingrese la cantidad de horas del curso";
                 }
-                else 
+                else
                 {
                     if (model.Input.Costo.Equals(0.00M))
                     {
-                        return "Ingrese el costo del Curso";
-
+                        return "Ingrese el costo del curso";
                     }
-                    else 
+                    else
                     {
                         var data = _curso.RegistrarCursoAsync(model);
-                        // Deserializamos el objeto para poder convertirlo en String y recogerlo. Recordemos que
-                        // hay que devolver un String al metodo "GetCurso"
-
                         return JsonConvert.SerializeObject(data.Result);
-                    
                     }
-                
                 }
-
             }
-            else 
+            else
             {
-                return "LLene los campos requeridos";
+                return "Llene los campos requeridos";
             }
+        }
 
-            return "Hola";
+        [HttpPost]
+        public IActionResult UpdateEstado(int id)
+        {
+            identityError = _curso.UpdateEstado(id);
+            return Redirect("/Cursos/Cursos?area=Cursos");
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using SistemasWeb.Areas.Categorias.Models;
+using SistemasWeb.Areas.Cursos.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SistemasWeb.Areas.Cursos.Models
@@ -24,6 +27,9 @@ namespace SistemasWeb.Areas.Cursos.Models
         [Required(ErrorMessage = "Seleccione una categoria")]
         public int CategoriaID { get; set; }
         public byte[] Image { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public TCategoria Categoria { get; set; }
     }
 }

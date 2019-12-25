@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Internal;
 using SistemasWeb.Areas.Categorias.Models;
 using SistemasWeb.Areas.Cursos.Models;
 using SistemasWeb.Data;
@@ -20,8 +19,6 @@ namespace SistemasWeb.Library
 
         public LCursos(ApplicationDbContext context, IWebHostEnvironment environment)
         {
-            // Inicializacion de los objetos
-
             this.context = context;
             this.environment = environment;
             _image = new Uploadimage();
@@ -31,8 +28,6 @@ namespace SistemasWeb.Library
             IdentityError identityError;
             try
             {
-                // El metodo "ByteAvatarImageAsync" esta sincronizado con otra tarea que esta haciendo la copia
-                // de la imagen 
                 var imageByte = await _image.ByteAvatarImageAsync(model.AvatarImage, environment);
                 var curso = new TCursos
                 {
@@ -44,7 +39,7 @@ namespace SistemasWeb.Library
                     Image = imageByte,
                     CategoriaID = model.Input.CategoriaID
                 };
-                context.Add(curso); // Agregamos el objeto Curso a la tabla TCursos de la base de datos
+                context.Add(curso);
                 context.SaveChanges();
                 identityError = new IdentityError { Code = "Done" };
             }
@@ -59,18 +54,46 @@ namespace SistemasWeb.Library
             return identityError;
         }
 
-        internal object GeTCursos(object search)
+        internal List<TCursos> getTCursos(string search)
         {
             List<TCursos> listCursos;
-
             if (search == null)
             {
                 listCursos = context._TCursos.ToList();
             }
-            else 
+            else
             {
-                listCursos = context._TCursos.Where(c => c.Nombre.StartsWith(search)).toList();
+                listCursos = context._TCursos.Where(c => c.Nombre.StartsWith(search)).ToList();
             }
+            return listCursos;
         }
+
+        internal IdentityError UpdateEstado(int id)
+        {
+            // Para poder definir el tipo de excepcion es necesario el objeto "IdentityError"
+            IdentityError identityError;
+            try
+            {
+                // Si en la columna Cursos hay una id igual a la que viene por parametro guardamos el curso.
+                // Informacion dependiendo de la id que me venga por parametro
+
+                var curso = context._TCursos.Where(c => c.CursoID.Equals(id)).ToList().ElementAt(0);
+                curso.Estado = curso.Estado ? false : true;
+                context.Update(curso); // Actualizar la tabla de Cursos con la informacion del objeto Curso
+                context.SaveChanges();// Salvamos los cambios
+                identityError = new IdentityError { Description = "Done" };
+            }
+            catch (Exception e)
+            {
+                identityError = new IdentityError
+                {
+                    Code = "Error",
+                    Description = e.Message
+                };
+            }
+            return identityError;
+        }
+
+
     }
 }

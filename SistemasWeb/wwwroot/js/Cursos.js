@@ -70,4 +70,11 @@ class Cursos extends Uploadpicture {
         }
 
     }
+    EditCurso(curso, cat)
+    {
+
+        console.log(curso);
+        console.log(cat);
+
+    }
 }
